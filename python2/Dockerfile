@@ -7,5 +7,9 @@ ARG VERSIONS_MD5=8054f3851fb818fd46f7ba851ffb572a
 COPY buildout.cfg build.sh /plone/
 WORKDIR /plone/
 RUN ./build.sh
+
+FROM python:2.7-slim-buster AS run
+COPY --from=build /plone/ /plone/
+WORKDIR /plone/
 ENTRYPOINT ["bin/instance"]
 CMD ["console"]
